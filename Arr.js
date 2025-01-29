@@ -113,3 +113,99 @@ const displayMovements = function (movements) {
   });
 };
 displayMovements(account1.movements);
+
+// const checkDogs = function (dogsJulia, dogsKate) {
+//   const juliaSlice = dogsJulia.slice(1, -2);
+//   const both = [...juliaSlice, ...dogsKate];
+//   console.log(both);
+//   both.forEach((dog, i) => {
+//     console.log(
+//       `Dog number ${i + 1} is an ${
+//         dog >= 3 ? "adult" : "puppy"
+//       },and it's ${dog} years old`
+//     );
+//   });
+// };
+
+// checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+// const eurToUsd = 1.1;
+
+// const movementsUSD = movements.map((mov) => {
+//   return mov * eurToUsd;
+// });
+
+// console.log(movements);
+// console.log(movementsUSD);
+
+// const movementUSDfor = [];
+// for (const mov of movements) movementUSDfor.push(mov * eurToUsd);
+// console.log(movementUSDfor);
+
+// const movementsDescriptions = movements.map(
+//   (mov, i) =>
+//     `Movement ${i + 1} : You ${mov > 0 ? "deposited" : "withdrew"}${Math.abs(
+//       mov
+//     )}}`
+// );
+// console.log(movementsDescriptions);
+
+// const user = "Steven Thomas Williams";
+
+// const createUsernames = function (accs) {
+//   accs.forEach(function (acc) {
+//     acc.userName = acc.owner
+//       .toLowerCase()
+//       .split(" ")
+//       .map((name) => name[0])
+//       .join("");
+//   });
+// };
+// console.log(createUsernames(accounts));
+
+const deposits = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(movements);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
+
+const withdrawals = movements.filter((mov) => mov < 0);
+console.log(withdrawals);
+
+//accumulator -> SNOWBALL
+const balance = movements.reduce((acc, curr, i, arr) => {
+  console.log(`Iteration ${i}:${acc}`);
+  return acc + curr;
+}, 0);
+console.log(balance);
+
+//------clean code------//
+
+//const balance = movements.reduce((acc, curr) => acc + curr, 0);
+//console.log(balance);
+
+//same code, but with for loop
+let balance2 = 0;
+for (const mov of movements) {
+  balance2 += mov;
+}
+console.log(balance2);
+
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov);
+  labelBalance.textContent = `${balance} EUR`;
+};
+calcDisplayBalance(account1.movements);
+
+//maximum value
+const max = movements.reduce((acc, mov) => {
+  if (acc > mov) return acc;
+  else return mov;
+}, movements[0]);
+console.log(max);

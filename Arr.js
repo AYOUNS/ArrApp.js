@@ -114,20 +114,20 @@ const displayMovements = function (movements) {
 };
 displayMovements(account1.movements);
 
-// const checkDogs = function (dogsJulia, dogsKate) {
-//   const juliaSlice = dogsJulia.slice(1, -2);
-//   const both = [...juliaSlice, ...dogsKate];
-//   console.log(both);
-//   both.forEach((dog, i) => {
-//     console.log(
-//       `Dog number ${i + 1} is an ${
-//         dog >= 3 ? "adult" : "puppy"
-//       },and it's ${dog} years old`
-//     );
-//   });
-// };
+const checkDogs = function (dogsJulia, dogsKate) {
+  const juliaSlice = dogsJulia.slice(1, -2);
+  const both = [...juliaSlice, ...dogsKate];
+  console.log(both);
+  both.forEach((dog, i) => {
+    console.log(
+      `Dog number ${i + 1} is an ${
+        dog >= 3 ? "adult" : "puppy"
+      },and it's ${dog} years old`
+    );
+  });
+};
 
-// checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
+checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -209,3 +209,16 @@ const max = movements.reduce((acc, mov) => {
   else return mov;
 }, movements[0]);
 console.log(max);
+
+const calcAverageHumanAge = function (ages) {
+  const HumanAge = ages.map((age) => (age <= 2 ? age * 2 : 16 + age * 4));
+  const adults = HumanAge.filter((ages) => ages > 18);
+  const Average = adults.reduce(
+    (acc, age, i, arr) => acc + age / arr.length,
+    0
+  );
+  console.log(HumanAge);
+  console.log(adults);
+  console.log(Average);
+};
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);

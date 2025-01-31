@@ -117,8 +117,9 @@ const displayMovements = function (movements) {
 //displayMovements(account1.movements);
 
 const calcDisplayBalance = function (acc) {
-  const balance = acc.movements.reduce((acc, mov) => acc + mov);
-  labelBalance.textContent = `${balance} €`;
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov);
+
+  labelBalance.textContent = `${acc.balance} €`;
 };
 //calcDisplayBalance(account1.movements);
 
@@ -160,6 +161,14 @@ const createUsernames = function (accs) {
 };
 createUsernames(accounts);
 
+const updateUI = function (acc) {
+  //Display Movements
+  displayMovements(acc.movements);
+  //display balance
+  calcDisplayBalance(acc);
+  //display summary
+  calcdisplaySummary(acc);
+};
 //Event handler
 let currentAccount;
 
@@ -169,7 +178,7 @@ btnLogin.addEventListener("click", function (e) {
   currentAccount = accounts.find(
     (acc) => acc.userName === inputLoginUsername.value
   );
-  console.log(currentAccount);
+  inputTransferAmount.value = inputTransferTo.value = "";
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     //Display UI and message
     labelWelcome.textContent = `Welcome back,${
@@ -180,12 +189,9 @@ btnLogin.addEventListener("click", function (e) {
   //clear input fields
   inputLoginUsername.value = inputLoginPin.value = "";
   inputLoginPin.blur();
-  //Display Movements
-  displayMovements(currentAccount.movements);
-  //display balance
-  calcDisplayBalance(currentAccount.movements);
-  //display summary
-  calcdisplaySummary(currentAccount);
+
+  //Update UI
+  updateUI(currentAccount);
 });
 
 btnTransfer.addEventListener("click", function (e) {
@@ -196,8 +202,52 @@ btnTransfer.addEventListener("click", function (e) {
   );
   console.log(amount, recieverAcc);
 
-  if (amount > 0) {
+  if (
+    amount > 0 &&
+    currentAccount.balance >= amount &&
+    recieverAcc?.userName !== currentAccount.userName
+  ) {
+    currentAccount.movements.push(-amount);
+    recieverAcc.movements.push(amount);
+
+    //Update UI
+    updateUI(currentAccount);
   }
+});
+
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount * 0.1)
+  ) {
+    //add movement
+    currentAccount.movements.push(amount);
+    //update UI
+    updateUI(currentAccount);
+  }
+});
+
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault;
+
+  if (
+    inputCloseUsername.value === currentAccount.userName &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      (acc) => acc.userName === currentAccount.userName
+    );
+    console.log(index);
+    //delete account
+    accounts.splice(index, 1);
+    //hide UI
+    containerApp.style.opacity = 0;
+  }
+  inputCloseUsername.value = inputClosePin.value = "";
 });
 
 // const checkDogs = function (dogsJulia, dogsKate) {
@@ -301,3 +351,17 @@ const eurToUsd = 1.1;
 // //return an element from object
 // const account = accounts.find((acc) => owner === "Jessica Davis");
 // console.log(account);
+//EQUALITY
+console.log(movements.includes(-130));
+//some : CONDITION
+const anyDeposits = movements.some((mov) => mov === -130);
+console.log(anyDeposits);
+//EVERY
+console.log(movements.every((mov) => mov > 0));
+console.log(account4.movements.every((mov) => mov > 0));
+
+//separate callback
+const deposits = (mov) => mov > 0;
+console.log(movements.some(deposits));
+console.log(movements.every(deposits));
+console.log(movements.filter(deposits));

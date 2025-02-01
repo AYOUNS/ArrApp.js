@@ -365,3 +365,79 @@ const deposits = (mov) => mov > 0;
 console.log(movements.some(deposits));
 console.log(movements.every(deposits));
 console.log(movements.filter(deposits));
+
+const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+console.log(arr.flat());
+
+const overalBalance = accounts
+
+  .flatMap((acc) => acc.movements)
+  .reduce((acc, mov) => acc + mov, 0);
+
+const breeds = [
+  {
+    breed: "German Shepherd",
+    averageWeight: 32,
+    activities: ["fetch", "swimming"],
+  },
+  {
+    breed: "Dalmatian",
+    averageWeight: 24,
+    activities: ["running", "fetch", "agility"],
+  },
+  {
+    breed: "Labrador",
+    averageWeight: 28,
+    activities: ["swimming", "fetch"],
+  },
+  {
+    breed: "Beagle",
+    averageWeight: 12,
+    activities: ["digging", "fetch"],
+  },
+  {
+    breed: "Husky",
+    averageWeight: 26,
+    activities: ["running", "agility", "swimming"],
+  },
+  {
+    breed: "Bulldog",
+    averageWeight: 36,
+    activities: ["sleeping"],
+  },
+  {
+    breed: "Poodle",
+    averageWeight: 18,
+    activities: ["agility", "fetch"],
+  },
+];
+const huskyWeight = breeds.find((avg) => avg.breed === "Husky")?.averageWeight;
+console.log(huskyWeight);
+
+const dogBothActivites = breeds.find(
+  (both, i) =>
+    both.activities.includes("running") && both.activities.includes("fetch")
+)?.breed;
+console.log(dogBothActivites);
+
+const allActivities = breeds.flatMap((act) => act.activities);
+console.log(allActivities);
+
+const uniqueActivities = Array.from(
+  new Set(breeds.flatMap((act) => act.activities))
+);
+console.log(uniqueActivities);
+
+const swimmingAdjacent = Array.from(
+  new Set(
+    breeds
+      .filter((UNI) =>
+        UNI.activities.some((activities) => activities === "swimming")
+      )
+      .flatMap((breed) => breed.activities)
+  )
+);
+console.log(swimmingAdjacent);
+
+console.log(breeds.every((breed) => breed.averageWeight > 10));
+console.log(breeds.some((breed) => breed.activities.length >= 3));

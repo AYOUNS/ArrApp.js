@@ -101,9 +101,12 @@ const inputClosePin = document.querySelector(".form__input--pin");
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = "";
-  movements.forEach(function (mov, i) {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
     const html = `<div class="movements__row">
@@ -250,194 +253,9 @@ btnClose.addEventListener("click", function (e) {
   inputCloseUsername.value = inputClosePin.value = "";
 });
 
-// const checkDogs = function (dogsJulia, dogsKate) {
-//   const juliaSlice = dogsJulia.slice(1, -2);
-//   const both = [...juliaSlice, ...dogsKate];
-//   console.log(both);
-//   both.forEach((dog, i) => {
-//     console.log(
-//         `Dog number ${i + 1} is an ${
-//             dog >= 3 ? "adult" : "puppy"
-//         },and it's ${dog} years old`
-//     );
-// });
-// };
-
-// checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
-
-const eurToUsd = 1.1;
-
-// const movementsUSD = movements.map((mov) => {
-//   return mov * eurToUsd;
-// });
-
-// console.log(movements);
-// console.log(movementsUSD);
-
-// const movementUSDfor = [];
-// for (const mov of movements) movementUSDfor.push(mov * eurToUsd);
-// console.log(movementUSDfor);
-
-// const movementsDescriptions = movements.map(
-//   (mov, i) =>
-//     `Movement ${i + 1} : You ${mov > 0 ? "deposited" : "withdrew"}${Math.abs(
-//       mov
-//     )}}`
-// );
-// console.log(movementsDescriptions);
-
-// const user = "Steven Thomas Williams";
-
-// const deposits = movements.filter(function (mov) {
-//   return mov > 0;
-// });
-// console.log(movements);
-// console.log(deposits);
-
-// const depositsFor = [];
-// for (const mov of movements) if (mov > 0) depositsFor.push(mov);
-// console.log(depositsFor);
-
-// const withdrawals = movements.filter((mov) => mov < 0);
-// console.log(withdrawals);
-
-// //accumulator -> SNOWBALL
-// const balance = movements.reduce((acc, curr, i, arr) => {
-//   console.log(`Iteration ${i}:${acc}`);
-//   return acc + curr;
-// }, 0);
-// console.log(balance);
-
-//------clean code------//
-
-//const balance = movements.reduce((acc, curr) => acc + curr, 0);
-//console.log(balance);
-
-//same code, but with for loop
-// let balance2 = 0;
-// for (const mov of movements) {
-//   balance2 += mov;
-// }
-// console.log(balance2);
-
-// //maximum value
-// const max = movements.reduce((acc, mov) => {
-//   if (acc > mov) return acc;
-//   else return mov;
-// }, movements[0]);
-// console.log(max);
-
-// const calcAverageHumanAge = (ages) =>
-//   ages
-//     .map((age) => (age <= 2 ? age * 2 : 16 + age * 4))
-//     .filter((ages) => ages > 18)
-//     .reduce((acc, age, i, arr) => acc + age / arr.length, 0);
-
-// const avg1 = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
-// console.log(avg1);
-
-//PIPline
-// const totlaDepositsUSD = movements
-//   .filter((mov) => mov > 0)
-//   .map((mov) => mov * eurToUsd)
-//   .reduce((acc, mov) => acc + mov, 0);
-// console.log(totlaDepositsUSD);
-
-// const firstWithdrawals = movements.find((mov) => mov > 0);
-
-// console.log(movements);
-// console.log(firstWithdrawals);
-
-// //return an element from object
-// const account = accounts.find((acc) => owner === "Jessica Davis");
-// console.log(account);
-//EQUALITY
-console.log(movements.includes(-130));
-//some : CONDITION
-const anyDeposits = movements.some((mov) => mov === -130);
-console.log(anyDeposits);
-//EVERY
-console.log(movements.every((mov) => mov > 0));
-console.log(account4.movements.every((mov) => mov > 0));
-
-//separate callback
-const deposits = (mov) => mov > 0;
-console.log(movements.some(deposits));
-console.log(movements.every(deposits));
-console.log(movements.filter(deposits));
-
-const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
-console.log(arr.flat());
-
-const overalBalance = accounts
-
-  .flatMap((acc) => acc.movements)
-  .reduce((acc, mov) => acc + mov, 0);
-
-const breeds = [
-  {
-    breed: "German Shepherd",
-    averageWeight: 32,
-    activities: ["fetch", "swimming"],
-  },
-  {
-    breed: "Dalmatian",
-    averageWeight: 24,
-    activities: ["running", "fetch", "agility"],
-  },
-  {
-    breed: "Labrador",
-    averageWeight: 28,
-    activities: ["swimming", "fetch"],
-  },
-  {
-    breed: "Beagle",
-    averageWeight: 12,
-    activities: ["digging", "fetch"],
-  },
-  {
-    breed: "Husky",
-    averageWeight: 26,
-    activities: ["running", "agility", "swimming"],
-  },
-  {
-    breed: "Bulldog",
-    averageWeight: 36,
-    activities: ["sleeping"],
-  },
-  {
-    breed: "Poodle",
-    averageWeight: 18,
-    activities: ["agility", "fetch"],
-  },
-];
-const huskyWeight = breeds.find((avg) => avg.breed === "Husky")?.averageWeight;
-console.log(huskyWeight);
-
-const dogBothActivites = breeds.find(
-  (both, i) =>
-    both.activities.includes("running") && both.activities.includes("fetch")
-)?.breed;
-console.log(dogBothActivites);
-
-const allActivities = breeds.flatMap((act) => act.activities);
-console.log(allActivities);
-
-const uniqueActivities = Array.from(
-  new Set(breeds.flatMap((act) => act.activities))
-);
-console.log(uniqueActivities);
-
-const swimmingAdjacent = Array.from(
-  new Set(
-    breeds
-      .filter((UNI) =>
-        UNI.activities.some((activities) => activities === "swimming")
-      )
-      .flatMap((breed) => breed.activities)
-  )
-);
-console.log(swimmingAdjacent);
-
-console.log(breeds.every((breed) => breed.averageWeight > 10));
-console.log(breeds.some((breed) => breed.activities.length >= 3));
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
